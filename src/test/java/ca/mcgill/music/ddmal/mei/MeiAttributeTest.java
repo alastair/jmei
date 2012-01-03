@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ca.mcgill.music.ddmal.mei.MeiAttribute;
-import ca.mcgill.music.ddmal.mei.MeiDocument;
 import ca.mcgill.music.ddmal.mei.MeiNamespace;
 
 public class MeiAttributeTest {
@@ -18,7 +17,7 @@ public class MeiAttributeTest {
         MeiAttribute attr = new MeiAttribute("name", "val");
         assertThat(attr.getName(), is("name"));
         assertThat(attr.getValue(), is("val"));
-        assertThat(attr.getNamespace(), is(MeiDocument.DEFAULT_NAMESPACE));
+        assertThat(attr.getNamespace(), is(new MeiNamespace(null, null)));
 
         MeiNamespace ns = new MeiNamespace("http://example.com", "ex");
         attr = new MeiAttribute(ns, "newname", "newval");
@@ -30,7 +29,7 @@ public class MeiAttributeTest {
     @Test
     public void testToString() {
         MeiAttribute attr = new MeiAttribute("name", "val");
-        assertThat(attr.toString(), is("mei:name=val"));
+        assertThat(attr.toString(), is("name=val"));
 
         MeiNamespace ns = new MeiNamespace("http://example.com", "ex");
         attr = new MeiAttribute(ns, "newname", "newval");
@@ -43,7 +42,7 @@ public class MeiAttributeTest {
         MeiAttribute newattr = new MeiAttribute("name", "val");
         assertThat(attr, is(equalTo(newattr)));
 
-        MeiAttribute defaultExplicit = new MeiAttribute(MeiDocument.DEFAULT_NAMESPACE, "name", "val");
+        MeiAttribute defaultExplicit = new MeiAttribute(new MeiNamespace(null, null), "name", "val");
         assertThat(defaultExplicit, is(equalTo(attr)));
 
         MeiNamespace ns = new MeiNamespace("http://example.com", "ex");

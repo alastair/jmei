@@ -62,7 +62,7 @@ public class MeiAttribute {
      *          the value of the attribute
      */
     public MeiAttribute(String name, String value) {
-        this(MeiDocument.DEFAULT_NAMESPACE, name, value);
+        this(new MeiNamespace(null, null), name, value);
     }
 
     /**
@@ -132,13 +132,16 @@ public class MeiAttribute {
      */
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append(namespace.getPrefix())
-                .append(":")
-                .append(name)
-                .append("=")
-                .append(value)
-                .toString();
+        StringBuilder sb = new StringBuilder();
+        if (namespace.getHref() != null) {
+            sb.append(namespace.getPrefix())
+                .append(":");
+        }
+        sb.append(name)
+            .append("=")
+            .append(value)
+            .toString();
+        return sb.toString();
     }
 
 }

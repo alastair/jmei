@@ -38,6 +38,21 @@ public class MeiElementTest {
     }
 
     @Test
+    public void testNamespace() {
+        MeiElement e = new MeiElement("element");
+        assertThat(e.getNamespace(), is(MeiElement.DEFAULT_NAMESPACE));
+    }
+
+    @Test
+    public void testOwnNamespace() {
+        MeiNamespace ns = new MeiNamespace("href", "pre");
+        MeiElement e = new MeiElement(ns, "el");
+
+        assertThat(e.getNamespace().getHref(), is("href"));
+        assertThat(e.getName(), is("el"));
+    }
+
+    @Test
     public void removeAttribute() {
         MeiElement e = new MeiElement("element");
         MeiAttribute attr = new MeiAttribute("key", "1");
@@ -62,6 +77,23 @@ public class MeiElementTest {
         e.removeAttributeByName("mode");
         assertThat(e.getAttributes().size(), is(1));
         assertThat(e.getAttributes().get(0).getName(), is("key"));
+    }
+
+    @Test
+    public void getAttribute() {
+        MeiElement e = new MeiElement("element");
+        e.addAttribute("key", "1");
+        e.addAttribute("mode", "2");
+
+        assertThat(e.getAttribute("key"), is("1"));
+    }
+
+    @Test
+    public void getNoAttribute() {
+        MeiElement e = new MeiElement("element");
+        e.addAttribute("key", "1");
+
+        assertThat(e.getAttribute("foo"), is(nullValue()));
     }
 
     @Test

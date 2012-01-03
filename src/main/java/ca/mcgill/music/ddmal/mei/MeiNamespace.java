@@ -65,6 +65,8 @@ public class MeiNamespace {
 
     /**
      * Compare this namespace to another object.
+     * Two namespaces are equal if their href is the same.
+     * Prefixes can be different.
      */
     @Override
     public boolean equals(Object obj) {
@@ -79,7 +81,6 @@ public class MeiNamespace {
         }
         MeiNamespace rhs = (MeiNamespace) obj;
         return new EqualsBuilder()
-                .append(prefix, rhs.prefix)
                 .append(href, rhs.href)
                 .isEquals();
     }
@@ -90,7 +91,6 @@ public class MeiNamespace {
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-          .append(prefix)
           .append(href)
           .toHashCode();
       }

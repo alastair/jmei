@@ -38,10 +38,10 @@ public class MeiDocumentTest {
         j.addChild(l);
     }
 
-	@Test
-	public void getElementById() {
-	    MeiDocument d = new MeiDocument();
-	    assertThat(d.getElementById("id-g"), is(nullValue()));
+    @Test
+    public void getElementById() {
+        MeiDocument d = new MeiDocument();
+        assertThat(d.getElementById("id-g"), is(nullValue()));
         d.setRootElement(e);
         assertThat(d.getElementById("id-e"), is(e));
         assertThat(d.getElementById("id-f"), is(f));
@@ -51,13 +51,13 @@ public class MeiDocumentTest {
         assertThat(d.getElementById("id-j"), is(j));
         assertThat(d.getElementById("id-k"), is(k));
         assertThat(d.getElementById("id-l"), is(l));
-	}
+    }
 
-	@Test
-	public void getElementsByName() {
+    @Test
+    public void getElementsByName() {
         MeiDocument d = new MeiDocument();
         assertThat(d.getElementsByName("same").size(), is(0));
         d.setRootElement(e);
         assertThat(d.getElementsByName("same").size(), is(3));
-	}
+    }
 }

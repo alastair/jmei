@@ -32,6 +32,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class MeiElement {
+    public static final MeiNamespace DEFAULT_NAMESPACE = new MeiNamespace("http://www.music-encoding.org/ns/mei", "mei");
+
     /** The unique identifier of this element. */
     private String id;
     /** The tag name of this element. */
@@ -42,6 +44,8 @@ public class MeiElement {
     private String value;
     /** The tail of this tag. e.g., &lt;tag>value&lt;/tag>tail */
     private String tail;
+    /** The namespace of this element. */
+    private MeiNamespace namespace;
 
     /** Key/value attributes attached to this element. */
     private List<MeiAttribute> attributes;
@@ -50,15 +54,36 @@ public class MeiElement {
 
     /**
      * Make a new element with a given name and id.
-     * This method should only be used interally
+     * This method should only be used internally
      * @param name
      * @param id
      */
-    /* package */ MeiElement(String name, String id) {
+    private MeiElement(MeiNamespace namespace, String name, String id) {
+        this.namespace = namespace;
         this.name = name;
         this.id = id;
         this.children = new ArrayList<MeiElement>();
         this.attributes = new ArrayList<MeiAttribute>();
+    }
+
+    /**
+     * Make a new element with a given name and id.
+     * This method should only be used internally
+     * @param name
+     * @param id
+     */
+    /* package */ MeiElement(String name, String id) {
+        this(DEFAULT_NAMESPACE, name, id);
+    }
+
+    /**
+     * Make a new element with a given name and id.
+     * This method should only be used internally
+     * @param name
+     * @param id
+     */
+    /* package */ MeiElement(MeiNamespace ns, String name) {
+        this(ns, name, UUID.randomUUID().toString());
     }
 
     /**
@@ -67,7 +92,11 @@ public class MeiElement {
      *          the name of the element tag.
      */
     public MeiElement(String name) {
-        this(name, UUID.randomUUID().toString());
+        this(DEFAULT_NAMESPACE, name, UUID.randomUUID().toString());
+    }
+
+    public MeiNamespace getNamespace() {
+        return namespace;
     }
 
     public String getName() {
@@ -78,7 +107,7 @@ public class MeiElement {
         return id;
     }
 
-    public void setId(String id) {
+    /* package */ void setId(String id) {
         this.id = id;
     }
 
@@ -163,6 +192,22 @@ public class MeiElement {
      */
     public void removeAllAttributes() {
         attributes.clear();
+    }
+
+    /**
+     * Get the value of an attribute with a given name.
+     * @param attrName
+     *             the name of the attribute
+     * @return
+     *             the value of the attribute, or null if it doesn't exist.
+     */
+    public String getAttribute(String attrName) {
+        for (MeiAttribute attribute : attributes) {
+            if (attribute.getName().equals(attrName)) {
+                return attribute.getValue();
+            }
+        }
+        return null;
     }
 
     /**

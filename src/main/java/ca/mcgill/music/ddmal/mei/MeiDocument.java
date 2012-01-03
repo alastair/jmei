@@ -30,7 +30,7 @@ import java.util.List;
  * A Document. It contains a root element, and some helper methods.
  */
 public class MeiDocument {
-    public static final MeiNamespace DEFAULT_NAMESPACE = new MeiNamespace("http://www.music-encoding.org/ns/mei", "mei");
+    public static final String MEI_VERSION = "2012";
 
     private MeiElement rootElement;
 

@@ -31,11 +31,12 @@ public class MeiNamespaceTest {
 
         assertThat(one, equalTo(two));
 
+        // Same href, different prefix is equal
+        MeiNamespace diffp = new MeiNamespace("href", "proo");
+        assertThat(one, equalTo(diffp));
+
         MeiNamespace diffh = new MeiNamespace("hroof", "pre");
         assertThat(one, is(not(equalTo(diffh))));
-
-        MeiNamespace diffp = new MeiNamespace("href", "proo");
-        assertThat(one, is(not(equalTo(diffp))));
 
         MeiNamespace diffboth = new MeiNamespace("example.com", "example");
         assertThat(one, is(not(equalTo(diffboth))));
