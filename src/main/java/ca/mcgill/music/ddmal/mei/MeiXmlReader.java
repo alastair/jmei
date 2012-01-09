@@ -169,7 +169,9 @@ public class MeiXmlReader {
     public static MeiDocument loadFile(File file) {
         try {
             MeiXmlReader loader = new MeiXmlReader(file);
-            return loader.readDocument();
+            MeiDocument doc = loader.readDocument();
+            doc.setFilename(file.getName());
+            return doc;
         } catch (FileNotFoundException e) {
             throw new MeiXmlReadException();
         }
@@ -186,7 +188,9 @@ public class MeiXmlReader {
         try {
             File fp = FileUtils.getFile(filename);
             MeiXmlReader loader = new MeiXmlReader(fp);
-            return loader.readDocument();
+            MeiDocument doc = loader.readDocument();
+            doc.setFilename(filename);
+            return doc;
         } catch (FileNotFoundException e) {
             throw new MeiXmlReadException("Cannot find file " + filename);
         }
@@ -201,6 +205,8 @@ public class MeiXmlReader {
      */
     public static MeiDocument loadDocument(String contents) {
         MeiXmlReader loader = new MeiXmlReader(contents);
-        return loader.readDocument();
+        MeiDocument doc = loader.readDocument();
+        doc.setFilename("[fromstring]");
+        return doc;
     }
 }

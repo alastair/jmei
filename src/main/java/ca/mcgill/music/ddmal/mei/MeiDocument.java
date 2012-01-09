@@ -33,6 +33,15 @@ public class MeiDocument {
     public static final String MEI_VERSION = "2012";
 
     private MeiElement rootElement;
+    private String filename;
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
 
     public MeiElement getRootElement() {
         return rootElement;
