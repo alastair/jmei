@@ -24,7 +24,9 @@
 package ca.mcgill.music.ddmal.mei;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A Document. It contains a root element, and some helper methods.
@@ -34,6 +36,16 @@ public class MeiDocument {
 
     private MeiElement rootElement;
     private String filename;
+
+    private Map<String, MeiElement> idMap;
+
+    public MeiDocument() {
+        idMap = new HashMap<String, MeiElement>();
+    }
+
+    /* package */ void addToMap(MeiElement e) {
+        idMap.put(e.getId(), e);
+    }
 
     public void setFilename(String filename) {
         this.filename = filename;
@@ -49,6 +61,7 @@ public class MeiDocument {
 
     public void setRootElement(MeiElement rootElement) {
         this.rootElement = rootElement;
+        rootElement.setDocument(this);
     }
 
     /**
@@ -61,7 +74,8 @@ public class MeiDocument {
         if (rootElement == null) {
             return null;
         }
-        return checkElementForId(rootElement, id);
+        return idMap.get(id);
+        //return checkElementForId(rootElement, id);
     }
 
     private MeiElement checkElementForId(MeiElement element, String id) {

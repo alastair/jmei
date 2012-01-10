@@ -47,10 +47,28 @@ public class MeiElement {
     /** The namespace of this element. */
     private MeiNamespace namespace;
 
+    /** The document that this element is part of. */
+    private MeiDocument document;
+
+
     /** Key/value attributes attached to this element. */
     private List<MeiAttribute> attributes;
     /** An ordered list of all child elements. */
     private List<MeiElement> children;
+
+    public MeiDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(MeiDocument document) {
+        this.document = document;
+        if (document != null) {
+            document.addToMap(this);
+        }
+        for (MeiElement c : children) {
+            c.setDocument(document);
+        }
+    }
 
     /**
      * Make a new element with a given name and id.
@@ -228,6 +246,7 @@ public class MeiElement {
         if (children.indexOf(child) >= 0) {
             // XXX: What's going on here?
         }
+        child.setDocument(document);
         child.parent = this;
         this.children.add(child);
     }
@@ -240,6 +259,7 @@ public class MeiElement {
     public void addChildBefore(MeiElement before, MeiElement child) {
         int pos = this.children.indexOf(before);
         child.parent = this;
+        child.setDocument(document);
         if (pos >= 0) {
             this.children.add(pos, child);
         } else {
