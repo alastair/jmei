@@ -27,7 +27,7 @@ If you want to use this file in another maven project you can run
         <dependency>
             <groupId>ca.mcgill.music.ddmal</groupId>
             <artifactId>jmei</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
 
 Usage
@@ -35,6 +35,8 @@ Usage
 
 jMEI closely follows the XML DOM, so provides a number of object creation and
 manipulation methods that are inspired from XML.
+
+See the example file in src/main/example for a running demo of these features.
 
 Create a Document, and add a root element to it
 
@@ -49,8 +51,8 @@ Create elements and add attributes to them
 
     // If you need to add an attribute with a different namespace,
     // you can do it manually
-    MeiNamespace ns = new MeiNamespace("xlink", "http://www.w3.org/1999/xlink");
-    MeiAttribute a = new MeiAttribute("title", "My image", ns);
+    MeiNamespace ns = new MeiNamespace("http://www.w3.org/1999/xlink", "xlink");
+    MeiAttribute a = new MeiAttribute(ns, "title", "My image");
     MeiElement graphic = new MeiElement("graphic");
     graphic.addAttribute(a);
 
@@ -103,10 +105,14 @@ Future plans
 ============
 
 * Tie objects into XML tree so that standard navigation tools
-        (e.g. xpath) can be used
+  (e.g. xpath) can be used
 * Create an Enum for tag types to prevent invalid tags from being created
-* Only let valid attributes and children be added to each element
-* Validation against the schema
+* Only let valid attributes and children be added to elements
+* Validate against the MEI schema
+* Automatically create a valid skeleton document (e.g. with meiversion attribute)
+* Don't use xml:id when not needed
+* Map of elements in the document for getById. Needs to auto-update
+  when elements are added and removed.
 
 License
 =======
@@ -116,4 +122,4 @@ jMEI is released under the MIT License
 Bug Reports / Patches
 =====================
 
-Are welcome on GitHub: https://github.com/alastair/jmei
+Issues and patches are welcome on GitHub: https://github.com/alastair/jmei
