@@ -2,7 +2,10 @@ package ca.mcgill.music.ddmal.mei;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,5 +62,34 @@ public class MeiDocumentTest {
         assertThat(d.getElementsByName("same").size(), is(0));
         d.setRootElement(e);
         assertThat(d.getElementsByName("same").size(), is(3));
+    }
+
+    @Test
+    public void isCorpus() {
+        String docText = "<meiCorpus xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"2012\"><music/></meiCorpus>";
+        MeiDocument doc = MeiXmlReader.loadDocument(docText);
+        assertThat(doc.isCorpus(), is(true));
+
+        docText = "<mei xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"2012\"><music/></mei>";
+        doc = MeiXmlReader.loadDocument(docText);
+        assertThat(doc.isCorpus(), is(false));
+    }
+
+    @Test
+    public void splitCorpus() {
+        String docText = "<meiCorpus xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"2012\">" +
+                "<mei><note xml:id=\"anote\"/></mei>" +
+                "<mei><neume xml:id=\"aneume\"/></mei></meiCorpus>";
+        MeiDocument doc = MeiXmlReader.loadDocument(docText);
+        List<MeiDocument> split = doc.splitCorpus();
+        assertThat(split.size(), is(2));
+
+        MeiDocument one = split.get(0);
+        assertThat(one.getElementById("anote"), is(notNullValue()));
+        assertThat(one.getElementById("aneume"), is(nullValue()));
+
+        MeiDocument two = split.get(1);
+        assertThat(two.getElementById("aneume"), is(notNullValue()));
+        assertThat(two.getElementById("anote"), is(nullValue()));
     }
 }

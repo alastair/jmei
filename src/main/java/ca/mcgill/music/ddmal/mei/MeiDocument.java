@@ -103,4 +103,29 @@ public class MeiDocument {
             return new ArrayList<MeiElement>();
         }
     }
+
+    /**
+     * Check if this document contains an Mei Corpus, that is, its root element
+     * is an &lt;meiCorpus>
+     * @return true if this document's root element is meiCorpus, false otherwise.
+     */
+    public boolean isCorpus() {
+        return rootElement.getName().equals("meiCorpus");
+    }
+
+    /**
+     * Split a document that contains many MEI files in an meiCorpus into a
+     * list of documents, each containing its own MEI document.
+     * @return
+     */
+    public List<MeiDocument> splitCorpus() {
+        List<MeiDocument> ret = new ArrayList<MeiDocument>();
+        List<MeiElement> meis = getElementsByName("mei");
+        for (MeiElement m : meis) {
+            MeiDocument doc = new MeiDocument();
+            doc.setRootElement(m);
+            ret.add(doc);
+        }
+        return ret;
+    }
 }
