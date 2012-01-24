@@ -64,6 +64,9 @@ public class MeiXmlReader {
         public MeiXmlReadException(String reason) {
             super(reason);
         }
+        public MeiXmlReadException(Throwable cause) {
+            super(cause);
+        }
     }
 
     private MeiXmlReader(Reader reader) {
@@ -73,11 +76,11 @@ public class MeiXmlReader {
             documentBuilder = builderFactory.newDocumentBuilder();
             document = documentBuilder.parse(new InputSource(reader));
         } catch (ParserConfigurationException e) {
-            throw new MeiXmlReadException();
+            throw new MeiXmlReadException(e);
         } catch (SAXException e) {
-            throw new MeiXmlReadException();
+            throw new MeiXmlReadException(e);
         } catch (IOException e) {
-            throw new MeiXmlReadException();
+            throw new MeiXmlReadException(e);
         }
     }
 
