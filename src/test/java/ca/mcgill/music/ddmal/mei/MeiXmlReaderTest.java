@@ -88,7 +88,7 @@ public class MeiXmlReaderTest {
      */
     @Test
     public void testBadMeiVersion() {
-        String docText = "<mei xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"2011-05\" />";
+        String docText = "<mei xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"2011-04\" />";
         try {
             MeiXmlReader.loadDocument(docText);
             fail("Should have thrown an exception");

@@ -153,7 +153,7 @@ public class MeiXmlReader {
             throw new MeiXmlReadException("Document must be <mei> or <meiCorups>");
         }
         String ver = root.getAttribute("meiversion");
-        if (ver == null || !ver.equals(MeiDocument.MEI_VERSION)) {
+        if (ver == null || !(ver.equals(MeiDocument.MEI_VERSION) || ver.equals("2011-05"))) {
             throw new MeiXmlReadException("Missing or invalid meiversion attribute");
         }
 
